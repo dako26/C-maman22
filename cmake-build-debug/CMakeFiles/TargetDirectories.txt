@@ -1,0 +1,3 @@
+C:/Users/dako6/CLionProjects/maman22/cmake-build-debug/CMakeFiles/maman22.dir
+C:/Users/dako6/CLionProjects/maman22/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/dako6/CLionProjects/maman22/cmake-build-debug/CMakeFiles/rebuild_cache.dir
