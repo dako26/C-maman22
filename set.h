@@ -31,4 +31,6 @@ int checkValidInput(char *input,char *command ,char *set1,char *set2,char *set3)
 int checkValidThreeSets(char **input,char **set1, char **set2, char **set3);
 int checkValidSetName(char *set);
 int checkValidOneSets(char **input,char **set1);
+void cleanup(char *command, char *set1, char *set2, char *set3, char *tempSet);
+void addElementToSet(Set *set, int value);
 
