@@ -96,6 +96,8 @@ int checkCommand(char *command) {
 }
 
 int checkValidInput(char *input, char *command, char *set1, char *set2, char *set3) {
+    char *tempInput[MAX_SIZE_INPUT];
+    strcpy(*tempInput, input);
     int commandType;
     if (sscanf(input, "%s", command) != 1) {
         printf("wrong name of operand\n");
@@ -107,20 +109,21 @@ int checkValidInput(char *input, char *command, char *set1, char *set2, char *se
         printf("miss name of the group\n");
         return WRONG_INPUT;
     }
-    memmove(input, input + commandLength + 1, strlen(input) - commandLength + 1);
+
+    skipSpaces(tempInput);
 
     switch (commandType) {
         case read_set:
             break;
         case print_set: /*1*/
-            checkValidOneSets(&input, &set1);
+            checkValidOneSets(tempInput, &set1);
             return commandType;
             break;
         case union_set:
         case intersect_set:
         case sub_set:
         case symdiff_set: /*3*/
-            checkValidThreeSets(&input, &set1, &set2, &set3);
+            checkValidThreeSets(tempInput, &set1, &set2, &set3);
             return commandType;
         case stop:
             if (strlen(input) != 0) {
@@ -160,15 +163,10 @@ int checkValidReadSet(char **input, char **set1) {
     /* Copy the set name to set1*/
     strcpy(*set1, tempSetName);
     inputString+=strlen(tempSetName);
-    if (*inputString != ',') {
-        printf("Missing comma.\n");
-        free(tempSet);
-        return WRONG_INPUT;
-    }
-    inputString+=2;
+
 
     /* Update inputString to point to the character after the extracted set name*/
-    inputString += strlen(tempSet+1); // Adjust inputString to point to the character after the extracted set name
+    inputString += strlen(tempSet)+1;// Adjust inputString to point to the character after the extracted set name
     while (sscanf(inputString, "%d", &value) == 1) {
 
         if (value < 0 || value >= SET_SIZE) {
@@ -176,7 +174,7 @@ int checkValidReadSet(char **input, char **set1) {
             free(tempSet);
             return WRONG_INPUT;
         }
-        addElementToSet(tempSet, value);
+
         if (value >=0 && value < 10) {
             inputString++;
         }
@@ -192,6 +190,11 @@ int checkValidReadSet(char **input, char **set1) {
             return WRONG_INPUT;
         }
         inputString++;
+
+        if (value == -1) {
+            inputString=inputString+2;
+            break;
+        }
 
     }
     if (*inputString != '\0') {
@@ -248,7 +251,7 @@ int checkValidThreeSets(char **input, char **set1, char **set2, char **set3) {
         printf("Missing comma.\n");
         return false;
     }
-    inputString += 2;
+    inputString ++;
     if (sscanf(inputString, "%[^,],", tempSet) != 1) {
         printf("dont have set.\n");
         return false;
@@ -263,7 +266,7 @@ int checkValidThreeSets(char **input, char **set1, char **set2, char **set3) {
         printf("Missing comma.\n");
         return false;
     }
-    inputString += 2;
+    inputString ++;
     if (sscanf(inputString, "%s", tempSet) != 1) {
         printf("dont have set.\n");
         return false;
@@ -312,6 +315,12 @@ void initializeSet(Set *set) {
     int i;
     for (i = 0; i < SET_SIZE / 8; ++i) {
         set->elements[i] = 0;
+    }
+}
+// Inside the while loop of checkValidReadSet function
+void skipSpaces(char **inputString) {
+    while (isspace(**inputString)) {
+        (*inputString)++; // Move to the next character if it's a space
     }
 }
 

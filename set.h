@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #define ALWAYS 1
 #define SET_SIZE 128
 #define MAX_SIZE_INPUT 200
@@ -33,4 +34,5 @@ int checkValidSetName(char *set);
 int checkValidOneSets(char **input,char **set1);
 void cleanup(char *command, char *set1, char *set2, char *set3, char *tempSet);
 void addElementToSet(Set *set, int value);
+void skipSpaces(char **inputString);
 
