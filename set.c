@@ -51,6 +51,33 @@ void unionSet(Set *set1, Set *set2, Set *result) {
     // Now temp contains the union of set1 and set2
     memcpy(result, &temp, sizeof(Set)); // Copy temp to result
 }
+void intersectSet(Set *set1, Set *set2, Set *result) {
+    int i;
+    Set temp;
+    for (i = 0; i < SET_SIZE / 8; i++) {
+        temp.elements[i] = set1->elements[i] & set2->elements[i];
+    }
+    // Now temp contains the intersection of set1 and set2
+    memcpy(result, &temp, sizeof(Set)); // Copy temp to result
+}
+void subSet(Set *set1, Set *set2, Set *result) {
+    int i;
+    Set temp;
+    for (i = 0; i < SET_SIZE / 8; i++) {
+        temp.elements[i] = set1->elements[i] & ~set2->elements[i];
+    }
+
+    memcpy(result, &temp, sizeof(Set));
+}
+void symdiffSet(Set *set1, Set *set2, Set *result) {
+    int i;
+    Set temp;
+    for (i = 0; i < SET_SIZE / 8; i++) {
+        temp.elements[i] = set1->elements[i] ^ set2->elements[i];
+    }
+
+    memcpy(result, &temp, sizeof(Set));
+}
 
 
 /*add element to the set*/

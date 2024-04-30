@@ -20,21 +20,21 @@ int main(void) {
     printf("the program has 6 group: SETA, SETB, SETC, SETD, SETE, SETF.\n");
     printf("the program know:\n");
     while (ALWAYS) {
-//        printf("1.read the numbers you enter and put all the number in the set.\n  to use read you must use with format \"read_set <SET> numbers and finish with -1\".\n"
-//               "  between number must use for \',\' example \"read_set SETA, 1,2,3,4,5,6,7,8,9,10,-1\".\n");
-//        printf("2.print the set you want to see.\n  to use print you must use this format \"print_set <SET>\".\n"
-//               "  example \"print_set SETA\".\n");
-//        printf("3.union set1 with set2 and put in set3.\n  to use union you must use this format \"union_set <SET1>, <SET2>, <SET3>\".\n");
-//        printf("  for example \"union_set SETA SETB SETC\".\n");
-//        printf("4.intersect set1 with set2 and put in set3.\n  to use intersect you must use this format \"intersect_set <SET1>, <SET2>, <SET3>\".\n");
-//        printf("  for example \"intersect_set SETA, SETB, SETC\".\n");
-//        printf("5.subtract set2 with set1 and put in set3.\n  to use subtract you must use this format \"sub_set <SET1>, <SET2>, <SET3>\".\n");
-//        printf("  for example \"sub_set SETA, SETB, SETC\".\n");
-//        printf("6.symmetric difference set1 with set2 and put in set3.\n  to use symmetric you must use this format \"symdiff_set <SET1>, <SET2>, <SET3>\".\n");
-//        printf("  for example \"symdiff_set SETA, SETB, SETC\".\n");
-//        printf("7.to exit the program you must use \"stop\".\n");
+        printf("1.read the numbers you enter and put all the number in the set.\n  to use read you must use with format \"read_set <SET> numbers and finish with -1\".\n"
+               "  between number must use for \',\' example \"read_set SETA, 1,2,3,4,5,6,7,8,9,10,-1\".\n");
+        printf("2.print the set you want to see.\n  to use print you must use this format \"print_set <SET>\".\n"
+               "  example \"print_set SETA\".\n");
+        printf("3.union set1 with set2 and put in set3.\n  to use union you must use this format \"union_set <SET1>, <SET2>, <SET3>\".\n");
+        printf("  for example \"union_set SETA SETB SETC\".\n");
+        printf("4.intersect set1 with set2 and put in set3.\n  to use intersect you must use this format \"intersect_set <SET1>, <SET2>, <SET3>\".\n");
+        printf("  for example \"intersect_set SETA, SETB, SETC\".\n");
+        printf("5.subtract set2 with set1 and put in set3.\n  to use subtract you must use this format \"sub_set <SET1>, <SET2>, <SET3>\".\n");
+        printf("  for example \"sub_set SETA, SETB, SETC\".\n");
+        printf("6.symmetric difference set1 with set2 and put in set3.\n  to use symmetric you must use this format \"symdiff_set <SET1>, <SET2>, <SET3>\".\n");
+        printf("  for example \"symdiff_set SETA, SETB, SETC\".\n");
+        printf("7.to exit the program you must use \"stop\".\n");
         fgets(input, sizeof(input), stdin);
-        printf("you enter: %s\n", input);
+        printf("Your input: %s\n", input);
         typeCommand = checkValidInput(input, command, set1, set2, set3);
         if (typeCommand == WRONG_INPUT) {
             continue;
@@ -58,30 +58,6 @@ int main(void) {
     }
 }
 
-void setSetForOneSetCommand(int commend, char *input, char *set, Set (*sets)[NUM_SETS]) {
-    int index = -1;
-    if (strcmp(set, "SETA") == 0) {
-        index = 0;
-    } else if (strcmp(set, "SETB") == 0) {
-        index = 1;
-    } else if (strcmp(set, "SETC") == 0) {
-        index = 2;
-    } else if (strcmp(set, "SETD") == 0) {
-        index = 3;
-    } else if (strcmp(set, "SETE") == 0) {
-        index = 4;
-    } else if (strcmp(set, "SETF") == 0) {
-        index = 5;
-    }
-
-    if (index != -1) {
-        if (commend == print_set) {
-            printSet(&(*sets)[index]); // Pass the address of the set
-        } else if (commend == read_set) {
-            readSet(&(*sets)[index], input); // Pass the address of the set
-        }
-    }
-}
 int findIndexSet(char *set) {
     if (strcmp(set, "SETA") == 0) {
         return SETA;
@@ -99,6 +75,16 @@ int findIndexSet(char *set) {
     return WRONG_INPUT;
 }
 
+void setSetForOneSetCommand(int commend, char *input, char *set, Set (*sets)[NUM_SETS]) {
+    int index;
+    index = findIndexSet(set);
+    if (commend == print_set) {
+        printSet(&(*sets)[index]); // Pass the address of the set
+    } else if (commend == read_set) {
+        readSet(&(*sets)[index], input); // Pass the address of the set
+    }
+}
+
 void setSetForThreeSetCommand(int commend, char *set1, char *set2, char *set3, Set (*sets)[NUM_SETS]) {
     int index1 = findIndexSet(set1);
     int index2 = findIndexSet(set2);
@@ -108,15 +94,15 @@ void setSetForThreeSetCommand(int commend, char *set1, char *set2, char *set3, S
     }
     if (commend == union_set) {
         unionSet(&(*sets)[index1], &(*sets)[index2], &(*sets)[index3]);
-//    } else if (commend == intersect_set) {
-//        intersectSet(&(*sets)[index1], &(*sets)[index2], &(*sets)[index3]);
-//    } else if (commend == sub_set) {
-//        subSet(&(*sets)[index1], &(*sets)[index2], &(*sets)[index3]);
-//    } else if (commend == symdiff_set) {
-//        symdiffSet(&(*sets)[index1], &(*sets)[index2], &(*sets)[index3]);
-//    }
+    } else if (commend == intersect_set) {
+        intersectSet(&(*sets)[index1], &(*sets)[index2], &(*sets)[index3]);
+    } else if (commend == sub_set) {
+        subSet(&(*sets)[index1], &(*sets)[index2], &(*sets)[index3]);
+    } else if (commend == symdiff_set) {
+        symdiffSet(&(*sets)[index1], &(*sets)[index2], &(*sets)[index3]);
+    }
 
-}}
+}
 
 
 int checkCommand(char *command) {

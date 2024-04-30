@@ -52,3 +52,8 @@ int containsElement(Set *set, int element);
 void printSet(Set *set);
 int checkNumberOfDigit(int num);
 void unionSet(Set *set1, Set *set2, Set *result);
+void intersectSet(Set *set1, Set *set2, Set *result);
+void subSet(Set *set1, Set *set2, Set *result);
+void symdiffSet(Set *set1, Set *set2, Set *result);
+
+
